@@ -30,25 +30,59 @@
     } else {
       //if geolocation fails
     }
-    function populateHeader(jsonObj) {
-    // where you want to put the information
-    //  var myH1 = document.getElementByID('h1');
-      var myH1 = document.createElement('h1');
-      var jsonWeather = jsonObj['weather'];
+    function showFood() {
+      var jsonHits = jsonObj['hits'];
+      //randomises the recipe to show from 0 - 9
+      var randomRec = Math.floor((Math.random() * 10));
+      //jsonRecepie is where the information from one recepie gathers. info an be called by jsonRecepie.Whateverinfo
+      jsonRecepie = jsonHits[randomRec].recipe;
+      var name = jsonRecepie.label;
+      var instruction = jsonRecepie.url;
+      var image = jsonRecepie.image;
+      var source = jsonRecepie.source;
+      // is a list
+      var healthLabelList = jsonRecepie.healthLabels;
+      //is a list
+      var ingredientsList = jsonRecepie.ingredientLines;
+      var calories = jsonRecepie.calories;
+      myH1.textContent =  name;
+    }
+    function showWeather(jsonObj){
+      var jsonWeather = jsonObj['weather'].main;
       var jsonTemp = jsonObj['main'].temp;
       var jsonName = jsonObj['name'];
       //get information by jsonWeather."Whateverinfo"
-      myH1.textContent = jsonWeather[0].description;
-      header.appendChild(myH1);
     }
+
     function showPosition(position) {
       var search = requestURL + Math.round(position.coords.latitude) +'&lon='+ Math.round(position.coords.longitude) + appID;
       request.open('GET', search);
       request.responseType = 'json';
       request.send();
       request.onload = function() {
-        var weather = request.response;
-        populateHeader(weather);
+        var response = request.response;
+        WeatherOK(response);
+      }
+    }
+    function weatherOK(jsonObj) {
+      var requestURL2 = 'https://api.edamam.com/search';
+      var appID2 = 'ac5c8b15';
+      var appKey2 = 'bda8334a6603c154a512182b7290dc6e';
+      var request2 = new XMLHttpRequest();
+      var searchWord = 'soup';
+      if(parseInt(jsonTemp,10) < 280){
+        searchWord = 'soup';
+      }else {
+        searchWord = 'grilled';
+      }
+      var search2 =  requestURL2+'?q=' + searchWord + '&app_id=' + appID2 + '&app_key=' + appKey2;
+      request.open('GET', search2);
+      request.responseType = 'json';
+      request.send();
+      request.onload = function() {
+        var searchResponse = request.response;
+        showFood(searchResponse);
+        showWeather(jsonObj);
       }
     }
     </script>
