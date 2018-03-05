@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>weather</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Faster+One" rel="stylesheet">
+    <link rel="stylesheet" href="ajax.css">
+  </head>
+
+  <body>
+
+      <header>
+
+      </header>
+
+      <section>
+
+      </section>
+
+    <script>
+    var header = document.querySelector('header');
+    var section = document.querySelector('section');
+    var requestURL = 'https://api.edamam.com/search';
+    var appID = 'ac5c8b15';
+    var appKey = 'bda8334a6603c154a512182b7290dc6e';
+    var request = new XMLHttpRequest();
+    // the searched word
+    var searchWord = 'soup';
+    var search =  requestURL+'?q=' + searchWord + '&app_id=' + appID + '&app_key=' + appKey;
+    request.open('GET', search);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+      var searchResponse = request.response;
+      populateHeader(searchResponse);
+    }
+    /*
+    Funktion to show recipes and get the infomration from the jsonobject
+    **/
+    function populateHeader(jsonObj) {
+      var myH1 = document.createElement('h1');
+      //var myH1 = document.getElementByID('h1');
+      var jsonHits = jsonObj['hits'];
+      //randomises the recipe to show from 0 - 9
+      var randomRec = Math.floor((Math.random() * 10));
+      //jsonRecepie is where the information from one recepie gathers. info an be called by jsonRecepie.Whateverinfo
+      jsonRecepie = jsonHits[randomRec].recipe;
+      var name = jsonRecepie.label;
+      var instruction = jsonRecepie.url;
+      var image = jsonRecepie.image;
+      var source = jsonRecepie.source;
+      // is a list
+      var healthLabelList = jsonRecepie.healthLabels;
+      //is a list
+      var ingredientsList = jsonRecepie.ingredientLines;
+      var calories = jsonRecepie.calories;
+      myH1.textContent =  name;
+      header.appendChild(myH1);
+    }
+    </script>
+  </body>
+</html>
