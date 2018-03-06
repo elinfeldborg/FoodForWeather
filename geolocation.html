@@ -22,6 +22,7 @@
     <script>
     var header = document.querySelector('header');
     var section = document.querySelector('section');
+    var jsonTemp = '0';
     var requestURL = 'http://api.openweathermap.org/data/2.5/weather?lat=';
     var appID = '&APPID=20bb47a9e07cd3fd298fe2dd460ce3eb';
     var request = new XMLHttpRequest();
@@ -45,13 +46,18 @@
       //is a list
       var ingredientsList = jsonRecepie.ingredientLines;
       var calories = jsonRecepie.calories;
-      myH1.textContent =  name;
+      var myH2 = document.createElement('h2');
+      myH2.textContent = name;
+      header.appendChild(myH1);
     }
     function showWeather(jsonObj){
-      var jsonWeather = jsonObj['weather'].main;
+      var jsonWeather = jsonObj['weather'][0].main;
       var jsonTemp = jsonObj['main'].temp;
       var jsonName = jsonObj['name'];
       //get information by jsonWeather."Whateverinfo"
+      var myH1 = document.createElement('h1');
+      myH1.textContent = jsonObj;
+      header.appendChild(myH1);
     }
 
     function showPosition(position) {
@@ -61,7 +67,7 @@
       request.send();
       request.onload = function() {
         var response = request.response;
-        WeatherOK(response);
+        weatherOK(response);
       }
     }
     function weatherOK(jsonObj) {
@@ -76,12 +82,12 @@
         searchWord = 'grilled';
       }
       var search2 =  requestURL2+'?q=' + searchWord + '&app_id=' + appID2 + '&app_key=' + appKey2;
-      request.open('GET', search2);
-      request.responseType = 'json';
-      request.send();
-      request.onload = function() {
-        var searchResponse = request.response;
-        showFood(searchResponse);
+      request2.open('GET', search2);
+      request2.responseType = 'json';
+      request2.send();
+      request2.printInfo = function() {
+        var searchResponse2 = request2.response;
+        showFood(searchResponse2);
         showWeather(jsonObj);
       }
     }
