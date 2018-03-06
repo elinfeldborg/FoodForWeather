@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="assets/css/main.css" />
 </head>
-<!--
+
 <script>
 	var header = document.querySelector('header');
 	var section = document.querySelector('section');
@@ -50,6 +50,24 @@
 		var headerWeather = document.getElementById('weather');
 		headerWeather.textContent = 'You have ' + jsonWeather.toLowerCase() + ' and the temperature is ' + (parseInt(jsonTemp) - 272) + ' celsius';
 	}
+	function showDrink(jsonObj){
+		var drinkName = jsonObj['drinks'][0].strDrink;
+		var drinkInstruction = jsonObj['drinks'][0].strInstructions;
+		var drinkImage = jsonObj['drinks'][0].strDrinkThumb;
+		var drinkAlc = jsonObj['drinks'][0].strAlcoholic;
+		var drinkGlass = jsonObj['drinks'][0].strGlass;
+		var drinkCat = jsonObj['drinks'][0].strCategory;
+		var drinkNameT = document.getElementById('drinkName');
+		drinkNameT.textContent = drinkName;
+		var drinkLinkT = document.getElementById('drinkLink');
+		drinkLinkT.textContent = drinkInstruction;
+		var drinkLabelsT = document.getElementById('drinkLabels');
+		drinkLabelsT.textContent = drinkCat + ", " + drinkAlc;
+		var drinkCompT = document.getElementById('drinkComponents');
+		drinkCompT.textContent = 'WIP';
+		var drinkCalT = document.getElementById('drinkCal');
+		drinkCalT.textContent = drinkGlass;
+	}
 	function showPosition(position) {
 		var requestURL = 'http://api.openweathermap.org/data/2.5/weather?lat=';
 		var appID = '&APPID=20bb47a9e07cd3fd298fe2dd460ce3eb';
@@ -84,9 +102,17 @@
 			showFood(response);
 			showWeather(jsonObj);
 		}
+		var requestURL3 = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
+		var request3 = new XMLHttpRequest();
+		request3.open('GET', requestURL3);
+		request3.responseType = 'json';
+		request3.send();
+		request3.onload = function() {
+			var response = request3.response;
+			showDrink(response);
+		}
 	}
 </script>
--->
 
 <body>
 
@@ -219,7 +245,7 @@
 							</header>
 							<p></p>
 							<footer class="align-center">
-								<a href="#" class="button alt">Not for you? Search for new dish</a>
+								<a href="#" class="button alt">Not for you? Search for a new dish</a>
 							</footer>
 						</div>
 					</div>
@@ -258,7 +284,7 @@
 									</li>
 									<hr>
 									<li>
-										<h3>Calories</h3>
+										<h3>Glass</h3>
 										<h1 id="drinkCal">Calories</h1>
 									</li>
 								</ul>
@@ -266,7 +292,7 @@
 							</header>
 							<p> </p>
 							<footer class="align-center">
-								<a href="#" class="button alt">Not for you? Search for new drink</a>
+								<a href="#" class="button alt">Not for you? Search for a new drink</a>
 							</footer>
 						</div>
 					</div>
