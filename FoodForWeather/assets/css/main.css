@@ -1860,6 +1860,7 @@
 		.box .content ul {
 			list-style: none;
 			line-height: 50px;
+			text-align: left;
 		}
 
 		.box > :last-child,
