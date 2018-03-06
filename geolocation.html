@@ -22,16 +22,12 @@
     <script>
     var header = document.querySelector('header');
     var section = document.querySelector('section');
-    var jsonTemp = '0';
-    var requestURL = 'http://api.openweathermap.org/data/2.5/weather?lat=';
-    var appID = '&APPID=20bb47a9e07cd3fd298fe2dd460ce3eb';
-    var request = new XMLHttpRequest();
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
     } else {
       //if geolocation fails
     }
-    function showFood() {
+    function showFood(jsonObj) {
       var jsonHits = jsonObj['hits'];
       //randomises the recipe to show from 0 - 9
       var randomRec = Math.floor((Math.random() * 10));
@@ -48,7 +44,7 @@
       var calories = jsonRecepie.calories;
       var myH2 = document.createElement('h2');
       myH2.textContent = name;
-      header.appendChild(myH1);
+      header.appendChild(myH2);
     }
     function showWeather(jsonObj){
       var jsonWeather = jsonObj['weather'][0].main;
@@ -56,11 +52,15 @@
       var jsonName = jsonObj['name'];
       //get information by jsonWeather."Whateverinfo"
       var myH1 = document.createElement('h1');
-      myH1.textContent = jsonObj;
+      myH1.textContent = jsonWeather;
       header.appendChild(myH1);
     }
 
     function showPosition(position) {
+      var jsonTemp = '0';
+      var requestURL = 'http://api.openweathermap.org/data/2.5/weather?lat=';
+      var appID = '&APPID=20bb47a9e07cd3fd298fe2dd460ce3eb';
+      var request = new XMLHttpRequest();
       var search = requestURL + Math.round(position.coords.latitude) +'&lon='+ Math.round(position.coords.longitude) + appID;
       request.open('GET', search);
       request.responseType = 'json';
@@ -76,18 +76,20 @@
       var appKey2 = 'bda8334a6603c154a512182b7290dc6e';
       var request2 = new XMLHttpRequest();
       var searchWord = 'soup';
-      if(parseInt(jsonTemp,10) < 280){
+      /*
+      if(parseInt(jsonTemp, 10) < 280){
         searchWord = 'soup';
       }else {
         searchWord = 'grilled';
       }
+      */
       var search2 =  requestURL2+'?q=' + searchWord + '&app_id=' + appID2 + '&app_key=' + appKey2;
       request2.open('GET', search2);
       request2.responseType = 'json';
       request2.send();
-      request2.printInfo = function() {
-        var searchResponse2 = request2.response;
-        showFood(searchResponse2);
+      request2.onload = function() {
+        var response = request2.response;
+        showFood(response);
         showWeather(jsonObj);
       }
     }
