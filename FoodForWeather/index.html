@@ -50,23 +50,26 @@
 		var headerWeather = document.getElementById('weather');
 		headerWeather.textContent = 'You have ' + jsonWeather.toLowerCase() + ' and the temperature is ' + (parseInt(jsonTemp) - 272) + ' celsius';
 	}
-	function showDrink(jsonObj){
+	function showDrink(jsonObj) {
 		var drinkName = jsonObj['drinks'][0].strDrink;
 		var drinkInstruction = jsonObj['drinks'][0].strInstructions;
 		var drinkImage = jsonObj['drinks'][0].strDrinkThumb;
 		var drinkAlc = jsonObj['drinks'][0].strAlcoholic;
 		var drinkGlass = jsonObj['drinks'][0].strGlass;
 		var drinkCat = jsonObj['drinks'][0].strCategory;
+
 		var drinkNameT = document.getElementById('drinkName');
 		drinkNameT.textContent = drinkName;
 		var drinkLinkT = document.getElementById('drinkLink');
 		drinkLinkT.textContent = drinkInstruction;
 		var drinkLabelsT = document.getElementById('drinkLabels');
-		drinkLabelsT.textContent = drinkCat + ", " + drinkAlc;
+		drinkLabelsT.textContent = drinkAlc;
 		var drinkCompT = document.getElementById('drinkComponents');
 		drinkCompT.textContent = 'WIP';
-		var drinkCalT = document.getElementById('drinkCal');
+		var drinkCalT = document.getElementById('drinkGlasses');
 		drinkCalT.textContent = drinkGlass;
+		var drinkCatT = document.getElementById('drinkCategory');
+		drinkCatT.textContent = drinkCat;
 	}
 	function showPosition(position) {
 		var requestURL = 'http://api.openweathermap.org/data/2.5/weather?lat=';
@@ -107,7 +110,7 @@
 		request3.open('GET', requestURL3);
 		request3.responseType = 'json';
 		request3.send();
-		request3.onload = function() {
+		request3.onload = function () {
 			var response = request3.response;
 			showDrink(response);
 		}
@@ -269,13 +272,18 @@
 									</li>
 									<hr>
 									<li>
+										<h3>Category</h3>
+										<h1 id="drinkCategory">Category</h1>
+									</li>
+									<hr>
+									<li>
 										<h3>Link to recipe</h3>
 										<h1 id="drinkLink">Link to recipe</h1>
 									</li>
 									<hr>
 									<li>
-										<h3>Healthlabels</h3>
-										<h1 id="drinkLabels">Healthlabels</h1>
+										<h3>Glass</h3>
+										<h1 id="drinkGlasses">Glass</h1>
 									</li>
 									<hr>
 									<li>
@@ -284,9 +292,10 @@
 									</li>
 									<hr>
 									<li>
-										<h3>Glass</h3>
-										<h1 id="drinkCal">Calories</h1>
+										<h3>Healthlabels</h3>
+										<h1 id="drinkLabels">Healthlabels</h1>
 									</li>
+									<hr>
 								</ul>
 
 							</header>
