@@ -26,6 +26,10 @@
 		margin-top: 50px;
 	}
 
+	#special-dish {
+		text-align: left;
+	}
+
 	ol, ul {
 		list-style: none;
 	}
@@ -1847,6 +1851,11 @@
 
 		.box .content {
 			padding: 3rem;
+		}
+
+		.box .content ul {
+			list-style: none;
+			line-height: 50px;
 		}
 
 		.box > :last-child,
