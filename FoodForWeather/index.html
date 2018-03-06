@@ -1,5 +1,3 @@
-<!DOCTYPE HTML>
-
 <html>
 
 <head>
@@ -8,77 +6,84 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="assets/css/main.css" />
 </head>
-<!-- 
 <script>
-    var header = document.querySelector('header');
-    var section = document.querySelector('section');
-    var requestURL = 'http://api.openweathermap.org/data/2.5/weather?lat=';
-    var appID = '&APPID=20bb47a9e07cd3fd298fe2dd460ce3eb';
-    var request = new XMLHttpRequest();
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-      //if geolocation fails
-    }
-    function showFood() {
-      var jsonHits = jsonObj['hits'];
-      //randomises the recipe to show from 0 - 9
-      var randomRec = Math.floor((Math.random() * 10));
-      //jsonRecepie is where the information from one recepie gathers. info an be called by jsonRecepie.Whateverinfo
-      jsonRecepie = jsonHits[randomRec].recipe;
-      var name = jsonRecepie.label;
-      var instruction = jsonRecepie.url;
-      var image = jsonRecepie.image;
-      var source = jsonRecepie.source;
-      // is a list
-      var healthLabelList = jsonRecepie.healthLabels;
-      //is a list
-      var ingredientsList = jsonRecepie.ingredientLines;
-      var calories = jsonRecepie.calories;
-      myH1.textContent =  name;
-    }
-    function showWeather(jsonObj){
-      var jsonWeather = jsonObj['weather'].main;
-      var jsonTemp = jsonObj['main'].temp;
-      var jsonName = jsonObj['name'];
-	  var get_weather = document.getElementById('weather')
-	  get_weather.textContent = jsonWeather;
-      //get information by jsonWeather."Whateverinfo"
-    }
-    function showPosition(position) {
-      var search = requestURL + Math.round(position.coords.latitude) +'&lon='+ Math.round(position.coords.longitude) + appID;
-      request.open('GET', search);
-      request.responseType = 'json';
-      request.send();
-      request.onload = function() {
-        var response = request.response;
-        WeatherOK(response);
-      }
-    }
-    function weatherOK(jsonObj) {
-      var requestURL2 = 'https://api.edamam.com/search';
-      var appID2 = 'ac5c8b15';
-      var appKey2 = 'bda8334a6603c154a512182b7290dc6e';
-      var request2 = new XMLHttpRequest();
-      var searchWord = 'soup';
-      if(parseInt(jsonTemp,10) < 280){
-        searchWord = 'soup';
-      }else {
-        searchWord = 'grilled';
-      }
-      var search2 =  requestURL2+'?q=' + searchWord + '&app_id=' + appID2 + '&app_key=' + appKey2;
-      request.open('GET', search2);
-      request.responseType = 'json';
-      request.send();
-      request.onload = function() {
-        var searchResponse = request.response;
-        showFood(searchResponse);
-        showWeather(jsonObj);
-      }
-    }
-    </script>
--->
-
+var header = document.querySelector('header');
+var section = document.querySelector('section');
+if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(showPosition);
+} else {
+	//if geolocation fails
+}
+function showFood(jsonObj) {
+	var jsonHits = jsonObj['hits'];
+	//randomises the recipe to show from 0 - 9
+	var randomRec = Math.floor((Math.random() * 10));
+	//jsonRecepie is where the information from one recepie gathers. info an be called by jsonRecepie.Whateverinfo
+	jsonRecepie = jsonHits[randomRec].recipe;
+	var name = jsonRecepie.label;
+	var instruction = jsonRecepie.url;
+	var image = jsonRecepie.image;
+	var source = jsonRecepie.source;
+	// is a list
+	var healthLabelList = jsonRecepie.healthLabels;
+	//is a list
+	var ingredientsList = jsonRecepie.ingredientLines;
+	var calories = jsonRecepie.calories;
+	var foodName= document.getElementById('foodName');
+	foodName.textContent = name;
+	var foodLink= document.getElementById('foodLink');
+	foodLink.textContent = instruction;
+	var foodLabels= document.getElementById('foodLabels');
+	foodLabels.textContent = healthLabelList;
+	var foodComp= document.getElementById('foodComponents');
+	foodComp.textContent = ingredientsList;
+	var foodCal= document.getElementById('foodCal');
+	foodCal.textContent = parseInt(calories) + " Calories";
+}
+function showWeather(jsonObj){
+	var jsonWeather = jsonObj['weather'][0].main;
+	var jsonTemp = jsonObj['main'].temp;
+	var jsonName = jsonObj['name'];
+	//get information by jsonWeather."Whateverinfo"
+	var headerWeather = document.getElementById('weather');
+	headerWeather.textContent = 'You have ' + jsonWeather + ' and the temperature is ' + (parseInt(jsonTemp) - 272) + ' Celsius';
+}
+function showPosition(position) {
+	var requestURL = 'http://api.openweathermap.org/data/2.5/weather?lat=';
+	var appID = '&APPID=20bb47a9e07cd3fd298fe2dd460ce3eb';
+	var request = new XMLHttpRequest();
+	var search = requestURL + Math.round(position.coords.latitude) +'&lon='+ Math.round(position.coords.longitude) + appID;
+	request.open('GET', search);
+	request.responseType = 'json';
+	request.send();
+	request.onload = function() {
+		var response = request.response;
+		weatherOK(response);
+	}
+}
+function weatherOK(jsonObj) {
+	var requestURL2 = 'https://api.edamam.com/search';
+	var appID2 = 'ac5c8b15';
+	var appKey2 = 'bda8334a6603c154a512182b7290dc6e';
+	var request2 = new XMLHttpRequest();
+	var searchWord = 'soup';
+	var jsonTemp = jsonObj['main'].temp;
+	if(parseInt(jsonTemp, 10) < 280){
+		searchWord = 'soup';
+	}else {
+		searchWord = 'grilled';
+	}
+	var search2 =  requestURL2+'?q=' + searchWord + '&app_id=' + appID2 + '&app_key=' + appKey2;
+	request2.open('GET', search2);
+	request2.responseType = 'json';
+	request2.send();
+	request2.onload = function() {
+		var response = request2.response;
+		showFood(response);
+		showWeather(jsonObj);
+	}
+}
+</script>
 <body>
 
 	<!-- Header -->
@@ -176,19 +181,19 @@
 
 								<ul>
 									<li>
-										<p>Name</p>
+										<p id="foodName">Name</p>
 									</li>
 									<li>
-										<p>Link to recipe</p>
+										<p id="foodLink">Link to recipe</p>
 									</li>
 									<li>
-										<p>Healthlabels</p>
+										<p id="foodLabels">Healthlabels</p>
 									</li>
 									<li>
-										<p>Ingredients</p>
+										<p id="foodComponents">Ingredients</p>
 									</li>
 									<li>
-										<p>Calories</p>
+										<p id="foodCal">Calories</p>
 									</li>
 								</ul>
 

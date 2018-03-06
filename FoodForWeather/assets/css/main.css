@@ -1828,6 +1828,10 @@
 			margin-bottom: 2rem;
 		}
 
+		.box header h2 {
+			margin-bottom: 2rem;
+		}
+
 		.box header p {
 			text-transform: uppercase;
 			font-size: .75rem;
@@ -2689,8 +2693,11 @@
 		}
 
 		.wrapper.style1 {
-			background-color: black;
-			color: #e2d1df;
+			color: #bfbfbf;
+			background-image: url(../../images/8.jpeg);
+			background-size: cover;
+			background-position: center;
+			position: relative;
 		}
 
 			.wrapper.style1 input, .wrapper.style1 select, .wrapper.style1 textarea {
