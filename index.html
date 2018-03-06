@@ -1,0 +1,295 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<title>FoodForWeather</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<script>
+var header = document.querySelector('header');
+var section = document.querySelector('section');
+if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(showPosition);
+} else {
+	//if geolocation fails
+}
+function showFood(jsonObj) {
+	var jsonHits = jsonObj['hits'];
+	//randomises the recipe to show from 0 - 9
+	var randomRec = Math.floor((Math.random() * 10));
+	//jsonRecepie is where the information from one recepie gathers. info an be called by jsonRecepie.Whateverinfo
+	jsonRecepie = jsonHits[randomRec].recipe;
+	var name = jsonRecepie.label;
+	var instruction = jsonRecepie.url;
+	var image = jsonRecepie.image;
+	var source = jsonRecepie.source;
+	// is a list
+	var healthLabelList = jsonRecepie.healthLabels;
+	//is a list
+	var ingredientsList = jsonRecepie.ingredientLines;
+	var calories = jsonRecepie.calories;
+	var foodName= document.getElementById('foodName');
+	foodName.textContent = name;
+	var foodLink= document.getElementById('foodLink');
+	foodLink.textContent = instruction;
+	var foodLabels= document.getElementById('foodLabels');
+	foodLabels.textContent = healthLabelList;
+	var foodComp= document.getElementById('foodComponents');
+	foodComp.textContent = ingredientsList;
+	var foodCal= document.getElementById('foodCal');
+	foodCal.textContent = parseInt(calories) + " Calories";
+
+}
+function showWeather(jsonObj){
+	var jsonWeather = jsonObj['weather'][0].main;
+	var jsonTemp = jsonObj['main'].temp;
+	var jsonName = jsonObj['name'];
+	//get information by jsonWeather."Whateverinfo"
+	var headerWeather = document.getElementById('weather');
+	headerWeather.textContent = 'You have ' + jsonWeather + ' and the temperature is ' + (parseInt(jsonTemp) - 272) + ' Celsius';
+}
+
+function showPosition(position) {
+	var requestURL = 'http://api.openweathermap.org/data/2.5/weather?lat=';
+	var appID = '&APPID=20bb47a9e07cd3fd298fe2dd460ce3eb';
+	var request = new XMLHttpRequest();
+	var search = requestURL + Math.round(position.coords.latitude) +'&lon='+ Math.round(position.coords.longitude) + appID;
+	request.open('GET', search);
+	request.responseType = 'json';
+	request.send();
+	request.onload = function() {
+		var response = request.response;
+		weatherOK(response);
+	}
+}
+function weatherOK(jsonObj) {
+	var requestURL2 = 'https://api.edamam.com/search';
+	var appID2 = 'ac5c8b15';
+	var appKey2 = 'bda8334a6603c154a512182b7290dc6e';
+	var request2 = new XMLHttpRequest();
+	var searchWord = 'soup';
+	var jsonTemp = jsonObj['main'].temp;
+	if(parseInt(jsonTemp, 10) < 280){
+		searchWord = 'soup';
+	}else {
+		searchWord = 'grilled';
+	}
+	var search2 =  requestURL2+'?q=' + searchWord + '&app_id=' + appID2 + '&app_key=' + appKey2;
+	request2.open('GET', search2);
+	request2.responseType = 'json';
+	request2.send();
+	request2.onload = function() {
+		var response = request2.response;
+		showFood(response);
+		showWeather(jsonObj);
+	}
+}
+</script>
+<body>
+
+	<!-- Header -->
+	<header id="header" class="alt">
+		<div class="logo">
+			<img src="logo.png">
+			<a href="index.html">FoodForWeather</a>
+		</div>
+		<a href="#menu">Menu</a>
+	</header>
+
+	<!-- Nav -->
+	<nav id="menu">
+		<ul class="links">
+			<li><a href="index.html">Home</a></li>
+			<li><a href="recipes.html">Recipes</a></li>
+			<li><a href="results.html">Results</a></li>
+		</ul>
+	</nav>
+
+	<!-- Banner -->
+	<section class="banner full">
+		<article>
+			<img src="images/1.jpg" alt="" />
+			<div class="inner">
+				<header>
+					<p id="headline">Search for food or drinks</p>
+					<input id="search-box" type="text" name="search" placeholder="SEARCH">
+				</header>
+			</div>
+		</article>
+
+		<article>
+			<img src="images/2.jpg" alt="" />
+			<div class="inner">
+				<header>
+					<p>Lorem ipsum dolor sit amet nullam feugiat</p>
+					<h2>Magna etiam</h2>
+				</header>
+			</div>
+		</article>
+		<article>
+			<img src="images/3.jpg" alt="" />
+			<div class="inner">
+				<header>
+					<p>Sed cursus aliuam veroeros lorem ipsum nullam</p>
+					<h2>Tempus dolor</h2>
+				</header>
+			</div>
+		</article>
+		<article>
+			<img src="images/4.jpeg" alt="" />
+			<div class="inner">
+				<header>
+					<p>Adipiscing lorem ipsum feugiat sed phasellus consequat</p>
+					<h2>Etiam feugiat</h2>
+				</header>
+			</div>
+		</article>
+		<article>
+			<img src="images/5.jpeg" alt="" />
+			<div class="inner">
+				<header>
+					<p>Ipsum dolor sed magna veroeros lorem ipsum</p>
+					<h2>Lorem adipiscing</h2>
+				</header>
+			</div>
+		</article>
+	</section>
+
+	<!-- Weather-box -->
+	<section id="weather-box" class="wrapper style3">
+		<div class="inner">
+			<header class="align-center">
+				<p>Todays weather at your location is:</p>
+				<h2 id="weather"></h2>
+			</header>
+		</div>
+	</section>
+
+	<section class="wrapper style2">
+		<div class="inner">
+			<div class="grid-style">
+
+				<!-- Food-box -->
+				<div>
+					<div class="box">
+						<div class="image fit">
+							<img src="images/1.jpg" alt="" />
+						</div>
+						<div class="content">
+							<header class="align-center">
+								<p>Our choise based on todays weather</p>
+								<h2>Dish of the day</h2>
+
+								<ul>
+									<li>
+										<p id="foodName">Name</p>
+									</li>
+									<li>
+										<p id="foodLink">Link to recipe</p>
+									</li>
+									<li>
+										<p id="foodLabels">Healthlabels</p>
+									</li>
+									<li>
+										<p id="foodComponents">Ingredients</p>
+									</li>
+									<li>
+										<p id="foodCal">Calories</p>
+									</li>
+								</ul>
+
+							</header>
+							<p></p>
+							<footer class="align-center">
+								<a href="#" class="button alt">Get a new recipe</a>
+							</footer>
+						</div>
+					</div>
+				</div>
+
+				<!-- Drink-box -->
+				<div>
+					<div class="box">
+						<div class="image fit">
+							<img src="images/drink2.jpeg" alt="" />
+						</div>
+						<div class="content">
+							<header class="align-center">
+								<p>Our choise based on todays weather</p>
+								<h2>Drink of the day</h2>
+
+								<ul>
+									<li>
+										<p>Name</p>
+									</li>
+									<li>
+										<p>Link to recipe</p>
+									</li>
+									<li>
+										<p>Healthlabels</p>
+									</li>
+									<li>
+										<p>Ingredients</p>
+									</li>
+									<li>
+										<p>Calories</p>
+									</li>
+								</ul>
+
+							</header>
+							<p> </p>
+							<footer class="align-center">
+								<a href="#" class="button alt">Get new recipe</a>
+							</footer>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer id="footer">
+		<div class="container">
+			<ul class="icons">
+				<li>
+					<a href="#" class="icon fa-twitter">
+						<span class="label">Twitter</span>
+					</a>
+				</li>
+				<li>
+					<a href="#" class="icon fa-facebook">
+						<span class="label">Facebook</span>
+					</a>
+				</li>
+				<li>
+					<a href="#" class="icon fa-instagram">
+						<span class="label">Instagram</span>
+					</a>
+				</li>
+				<li>
+					<a href="#" class="icon fa-envelope-o">
+						<span class="label">Email</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="copyright">
+			&copy; Untitled. All rights reserved.
+		</div>
+	</footer>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
