@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<title>FoodForWeather</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<!--
+<script>
+var header = document.querySelector('header');
+    var section = document.querySelector('section');
+    var requestURL = 'http://api.openweathermap.org/data/2.5/weather?q=';
+    var appID = '&APPID=20bb47a9e07cd3fd298fe2dd460ce3eb';
+    var locale = 'göteborg';
+		// Change locale string to change location
+    var request = new XMLHttpRequest();
+    var search = requestURL + locale + appID;
+    request.open('GET', search);
+
+	request.responseType = 'json';
+	request.send();
+
+	request.onload = function () {
+		var weather = request.response;
+		populateHeader(weather);
+		show(weather);
+	}
+
+	function populateHeader(jsonObj) {
+		var myH1 = document.getElementById('weather');
+		var jsonWeather = jsonObj['weather'];
+		myH1.textContent = jsonWeather[0].main;
+		header.appendChild(myH1);
+	}
+</script>
+-->
+	
+<!--script>
+function myFunction(){
+	document.getElementById("drop-down").classList.toggle("dropdown-alternatives");
+}
+
+window.oncklick = function(event){
+	if (!event.target.matches(".search-button")){
+		var dropdowns = document.getElementsByClassName("dropdown-alternatives");
+		var i;
+		for ( i = 0; i < dropdowns.lenght; i++) {
+			var openDropdown = dropdowns[i];
+			if (openDropdown.classList.contains("dropdown-alternatives")) {
+				openDropdown.classList.remove("dropdown-alternatives");
+			}
+		}
+	}
+}
+
+</script-->
+
+<body>
+
+	<!-- Header -->
+	<header id="header" class="alt">
+		<div class="logo">
+			<img src="logo.png">
+			<a href="index.html">FoodForWeather</a>
+		</div>
+		<a href="#menu">Search</a>
+	</header>
+
+	<!-- Nav -->
+	<nav id="menu">
+		<ul class="links">
+			<li>
+				<a href="index.html">Home</a>
+			</li>
+			<li>
+				<a href="food.html">Search for food</a>
+			</li>
+			<li>
+				<a href="drinks.html">Search for drink</a>
+			</li>
+		</ul>
+	</nav>
+
+	<!-- Banner -->
+	<section class="banner full">
+		<article>
+			<img src="images/drink3.jpeg" alt="" />
+			<div class="inner">
+				<header>
+					<h1 id="headline">Search for drinks</h1>
+					<input id="search-box" type="text" name="search" placeholder="SEARCH">
+					<br>
+				</header>
+			</div>
+		</article>
+	</section>
+
+	<!-- Footer -->
+	<footer id="footer">
+		<div class="container">
+			<ul class="icons">
+				<li>
+					<a href="#" class="icon fa-twitter">
+						<span class="label">Twitter</span>
+					</a>
+				</li>
+				<li>
+					<a href="#" class="icon fa-facebook">
+						<span class="label">Facebook</span>
+					</a>
+				</li>
+				<li>
+					<a href="#" class="icon fa-instagram">
+						<span class="label">Instagram</span>
+					</a>
+				</li>
+				<li>
+					<a href="#" class="icon fa-envelope-o">
+						<span class="label">Email</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="copyright">
+			&copy; Untitled. All rights reserved.
+		</div>
+	</footer>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

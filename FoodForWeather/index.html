@@ -34,14 +34,18 @@
 		var foodName = document.getElementById('foodName');
 		foodName.textContent = name;
 		var foodLink = document.getElementById('foodLink');
-		foodLink.textContent = instruction;
+		foodLink.href = instruction;
+		foodLink.textContent = source;
 		var foodLabels = document.getElementById('foodLabels');
 		foodLabels.textContent = healthLabelList;
 		var foodComp = document.getElementById('foodComponents');
 		foodComp.textContent = ingredientsList;
 		var foodCal = document.getElementById('foodCal');
 		foodCal.textContent = parseInt(calories) + " Calories";
+		var foodImage = document.getElementById('food-pic');
+		foodImage.src = image;
 	}
+
 	function showWeather(jsonObj) {
 		var jsonWeather = jsonObj['weather'][0].main;
 		var jsonTemp = jsonObj['main'].temp;
@@ -65,11 +69,20 @@
 		var drinkLabelsT = document.getElementById('drinkLabels');
 		drinkLabelsT.textContent = drinkAlc;
 		var drinkCompT = document.getElementById('drinkComponents');
-		drinkCompT.textContent = 'WIP';
+		var ingString = jsonObj['drinks'][0].strIngredient1 + ' ' +  jsonObj['drinks'][0].strMeasure1 + ', ' + jsonObj['drinks'][0].strIngredient2 + ' ' +  jsonObj['drinks'][0].strMeasure2 + ', ' + jsonObj['drinks'][0].strIngredient3
+		 + ' ' +  jsonObj['drinks'][0].strMeasure3 + ', ' + jsonObj['drinks'][0].strIngredient4 + ' ' +  jsonObj['drinks'][0].strMeasure4 + ', ' + jsonObj['drinks'][0].strIngredient5 + ' ' +  jsonObj['drinks'][0].strMeasure5 + ', ' +
+		 jsonObj['drinks'][0].strIngredient6 + ' ' +  jsonObj['drinks'][0].strMeasure6 + ', ' + jsonObj['drinks'][0].strIngredient7 + ' ' +  jsonObj['drinks'][0].strMeasure7 + ', ' +
+		 jsonObj['drinks'][0].strIngredient8 + ' ' +  jsonObj['drinks'][0].strMeasure8 + ', ' + jsonObj['drinks'][0].strIngredient9 + ' ' +  jsonObj['drinks'][0].strMeasure9 + ', ' +
+		 jsonObj['drinks'][0].strIngredient10 + ' ' +  jsonObj['drinks'][0].strMeasure10 + ', ' + jsonObj['drinks'][0].strIngredient11 + ' ' +  jsonObj['drinks'][0].strMeasure11 + ', ' +
+		 jsonObj['drinks'][0].strIngredient12 + ' ' +  jsonObj['drinks'][0].strMeasure12 + ', ' + jsonObj['drinks'][0].strIngredient13 + ' ' +  jsonObj['drinks'][0].strMeasure13 + ', ' +
+		 jsonObj['drinks'][0].strIngredient14 + ' ' +  jsonObj['drinks'][0].strMeasure14 + ', ' + jsonObj['drinks'][0].strIngredient15 + ' ' +  jsonObj['drinks'][0].strMeasure15 + ', ';
+		drinkCompT.textContent = ingString;
 		var drinkCalT = document.getElementById('drinkGlasses');
 		drinkCalT.textContent = drinkGlass;
 		var drinkCatT = document.getElementById('drinkCategory');
 		drinkCatT.textContent = drinkCat;
+		var drinkPicture = document.getElementById('drink-pic');
+		drinkPicture.src = drinkImage;
 	}
 	function showPosition(position) {
 		var requestURL = 'http://api.openweathermap.org/data/2.5/weather?lat=';
@@ -91,8 +104,10 @@
 		var request2 = new XMLHttpRequest();
 		var searchWord = 'soup';
 		var jsonTemp = jsonObj['main'].temp;
-		if (parseInt(jsonTemp, 10) < 280) {
+		if (parseInt(jsonTemp, 10) < 270) {
 			searchWord = 'soup';
+		}else if(parseInt(jsonTemp, 10)<280){
+			searchWord = 'pasta';
 		} else {
 			searchWord = 'grilled';
 		}
@@ -117,6 +132,24 @@
 	}
 </script>
 
+<script>
+	function dropDown() {
+		document.getElementById("drop-down").classList.toggle("dropdown-alternatives");
+	}
+	window.oncklick = function (event) {
+		if (!event.target.matches(".search-button")) {
+			var dropdowns = document.getElementsByClassName("dropdown-alternatives");
+			var i;
+			for (i = 0; i < dropdowns.lenght; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains("dropdown-alternatives")) {
+					openDropdown.classList.remove("dropdown-alternatives");
+				}
+			}
+		}
+	}
+</script>
+
 <body>
 
 	<!-- Header -->
@@ -125,7 +158,7 @@
 			<img src="logo.png">
 			<a href="index.html">FoodForWeather</a>
 		</div>
-		<a href="#menu">Menu</a>
+		<a href="#menu">Search</a>
 	</header>
 
 	<!-- Nav -->
@@ -135,10 +168,10 @@
 				<a href="index.html">Home</a>
 			</li>
 			<li>
-				<a href="recipes.html">Recipes</a>
+				<a href="food.html">Search for food</a>
 			</li>
 			<li>
-				<a href="results.html">Results</a>
+				<a href="drinks.html">Search for drink</a>
 			</li>
 		</ul>
 	</nav>
@@ -149,8 +182,13 @@
 			<img src="images/1.jpg" alt="" />
 			<div class="inner">
 				<header>
-					<p id="headline">Search for food or drinks</p>
-					<input id="search-box" type="text" name="search" placeholder="SEARCH">
+					<div class="drop-down">
+						<button onclick="dropDown()" class="search-button"> What are you in the mood for today? </button>
+						<div id="drop-down" class="dropdown-alternatives">
+							<a href="food.html"> Food </a>
+							<a href="drinks.html"> Drinks </a>
+						</div>
+					</div>
 				</header>
 			</div>
 		</article>
@@ -211,7 +249,7 @@
 				<div>
 					<div class="box">
 						<div class="image fit">
-							<img src="images/1.jpg" alt="" />
+							<img id="food-pic" alt="" />
 						</div>
 						<div class="content">
 							<header class="align-center">
@@ -226,7 +264,7 @@
 									<hr>
 									<li>
 										<h3>Link to recipe</h3>
-										<h1 id="foodLink">Link to recipe</h1>
+										<a id="foodLink">Link to recipe</a>
 									</li>
 									<hr>
 									<li>
@@ -258,7 +296,7 @@
 				<div>
 					<div class="box">
 						<div class="image fit">
-							<img src="images/drink2.jpeg" alt="" />
+							<img id="drink-pic" alt="" />
 						</div>
 						<div class="content">
 							<header class="align-center">
@@ -277,8 +315,8 @@
 									</li>
 									<hr>
 									<li>
-										<h3>Link to recipe</h3>
-										<h1 id="drinkLink">Link to recipe</h1>
+										<h3>Instructions</h3>
+										<h1 id="drinkLink">Instructions</h1>
 									</li>
 									<hr>
 									<li>
