@@ -26,10 +26,10 @@
 		height: 80%;
 	}
 
-	.search-button{
+	#search-box{
 		background-color: rgba(0,0,0,0.5);
 		color: #fff!important;
-		height: 100px;
+		height: 50px;
 		width: 600px;
 		font-size: 20px;
 	}
