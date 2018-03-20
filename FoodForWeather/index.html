@@ -111,7 +111,7 @@
 			searchWord = 'hot';
 		}else if(parseInt(jsonTemp, 10) < 280){
 			searchWord = 'pasta';
-		}else if(parseInt(jsonTemp, 10) < 290 ){
+		} else if(parseInt(jsonTemp, 10) < 290) {
 			searchWord = 'grilled';
 		}else {
 			searchWord = 'ice';
@@ -135,6 +135,21 @@
 			showDrink(response);
 		}
 	}
+	function dropDown() {
+		document.getElementById("drop-down").classList.toggle("dropdown-alternatives");
+	}
+	window.oncklick = function (event) {
+		if (!event.target.matches(".search-button")) {
+			var dropdowns = document.getElementsByClassName("dropdown-alternatives");
+			var i;
+			for (i = 0; i < dropdowns.lenght; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains("dropdown-alternatives")) {
+					openDropdown.classList.remove("dropdown-alternatives");
+				}
+			}
+		}
+	}
 </script>
 
 <body>
@@ -146,6 +161,39 @@
 			<a href="index.html">FoodForWeather</a>
 		</div>
 	</header>
+
+	<!-- Nav -->
+	<!--nav id="menu">
+		<ul class="links">
+			<li>
+				<a href="index.html">Home</a>
+			</li>
+			<li>
+				<a href="food.html">Search for food</a>
+			</li>
+			<li>
+				<a href="drinks.html">Search for drink</a>
+			</li>
+		</ul>
+	</nav>
+
+	<!-- Banner -->
+	<!--section class="banner full">
+		<article>
+			<img src="images/1.jpg" alt="" />
+			<div class="inner">
+				<header>
+					<div class="drop-down">
+						<button onclick="dropDown()" class="search-button"> What are you in the mood for today? </button>
+						<div id="drop-down" class="dropdown-alternatives">
+							<a href="food.html"> Food </a>
+							<a href="drinks.html"> Drinks </a>
+						</div>
+					</div>
+				</header>
+			</div>
+		</article>
+	</section-->
 
 	<!-- Weather-box -->
 	<section id="weather-box" class="wrapper style3">
