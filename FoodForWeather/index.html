@@ -19,7 +19,7 @@
 	function showFood(jsonObj) {
 		var jsonHits = jsonObj['hits'];
 		//randomises the recipe to show from 0 - 9
-		var randomRec = Math.floor((Math.random() * 10));
+		var randomRec = Math.floor((Math.random() * 100));
 		//jsonRecepie is where the information from one recepie gathers. info an be called by jsonRecepie.Whateverinfo
 		jsonRecepie = jsonHits[randomRec].recipe;
 		var name = jsonRecepie.label;
@@ -84,7 +84,7 @@
 		var drinkPicture = document.getElementById('drink-pic');
 		drinkPicture.src = drinkImage;
 	}
-	
+
 	function showPosition(position) {
 		var requestURL = 'http://api.openweathermap.org/data/2.5/weather?lat=';
 		var appID = '&APPID=20bb47a9e07cd3fd298fe2dd460ce3eb';
@@ -112,7 +112,7 @@
 		} else {
 			searchWord = 'grilled';
 		}
-		var search2 = requestURL2 + '?q=' + searchWord + '&app_id=' + appID2 + '&app_key=' + appKey2;
+		var search2 = requestURL2 + '?q=' + searchWord + '&app_id=' + appID2 + '&app_key=' + appKey2 +'&to=100';
 		request2.open('GET', search2);
 		request2.responseType = 'json';
 		request2.send();
@@ -264,7 +264,7 @@
 							</header>
 							<p></p>
 							<footer class="align-center">
-								<a href="#" class="button alt">Not for you? Search for a new dish</a>
+								<a href="food.html" class="button alt">Not for you? Search for a new dish</a>
 							</footer>
 						</div>
 					</div>
@@ -317,7 +317,7 @@
 							</header>
 							<p> </p>
 							<footer class="align-center">
-								<a href="#" class="button alt">Not for you? Search for a new drink</a>
+								<a href="drinks.html" class="button alt">Not for you? Search for a new drink</a>
 							</footer>
 						</div>
 					</div>
