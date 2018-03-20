@@ -1,0 +1,340 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>FoodForWeather</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<script>
+	var header = document.querySelector('header');
+	var section = document.querySelector('section');
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(showPosition);
+	} else {
+		//if geolocation fails
+	}
+	function showFood(jsonObj) {
+		var jsonHits = jsonObj['hits'];
+		//randomises the recipe to show from 0 - 9
+		var randomRec = Math.floor((Math.random() * 10));
+		//jsonRecepie is where the information from one recepie gathers. info an be called by jsonRecepie.Whateverinfo
+		jsonRecepie = jsonHits[randomRec].recipe;
+		var name = jsonRecepie.label;
+		var instruction = jsonRecepie.url;
+		var image = jsonRecepie.image;
+		var source = jsonRecepie.source;
+		// is a list
+		var healthLabelList = jsonRecepie.healthLabels;
+		//is a list
+		var ingredientsList = jsonRecepie.ingredientLines;
+		var calories = jsonRecepie.calories;
+		var foodName = document.getElementById('foodName');
+		foodName.textContent = name;
+		var foodLink = document.getElementById('foodLink');
+		foodLink.href = instruction;
+		foodLink.textContent = source;
+		var foodLabels = document.getElementById('foodLabels');
+		foodLabels.textContent = healthLabelList;
+		var foodComp = document.getElementById('foodComponents');
+		foodComp.textContent = ingredientsList;
+		var foodCal = document.getElementById('foodCal');
+		foodCal.textContent = parseInt(calories) + " Calories";
+		var foodImage = document.getElementById('food-pic');
+		foodImage.src = image;
+	}
+
+	function showWeather(jsonObj) {
+		var jsonWeather = jsonObj['weather'][0].main;
+		var jsonTemp = jsonObj['main'].temp;
+		var jsonName = jsonObj['name'];
+		//get information by jsonWeather."Whateverinfo"
+		var headerWeather = document.getElementById('weather');
+		headerWeather.textContent = 'You have ' + jsonWeather.toLowerCase() + ' and the temperature is ' + (parseInt(jsonTemp) - 272) + ' celsius';
+	}
+	function showDrink(jsonObj) {
+		var drinkName = jsonObj['drinks'][0].strDrink;
+		var drinkInstruction = jsonObj['drinks'][0].strInstructions;
+		var drinkImage = jsonObj['drinks'][0].strDrinkThumb;
+		var drinkAlc = jsonObj['drinks'][0].strAlcoholic;
+		var drinkGlass = jsonObj['drinks'][0].strGlass;
+		var drinkCat = jsonObj['drinks'][0].strCategory;
+
+		var drinkNameT = document.getElementById('drinkName');
+		drinkNameT.textContent = drinkName;
+		var drinkLinkT = document.getElementById('drinkLink');
+		drinkLinkT.textContent = drinkInstruction;
+		var drinkLabelsT = document.getElementById('drinkLabels');
+		drinkLabelsT.textContent = drinkAlc;
+		var drinkCompT = document.getElementById('drinkComponents');
+		var ingString = '';
+		ingString = jsonObj['drinks'][0]['strIngredient' + 1] + " " + jsonObj['drinks'][0]['strMeasure' + 1];
+		for (var i = 2; i < 16; i++) {
+			if(jsonObj['drinks'][0]['strIngredient' + i] == "null"|| jsonObj['drinks'][0]['strIngredient' + i] ==""|| jsonObj['drinks'][0]['strIngredient' + i]== " "|| jsonObj['drinks'][0]['strIngredient' + i]== "\n"){
+			}else {
+					ingString = ingString + ', ' +jsonObj['drinks'][0]['strIngredient' + i] +" "+ jsonObj['drinks'][0]['strMeasure' + i];
+			}
+		}
+		drinkCompT.textContent = ingString;
+		var drinkCalT = document.getElementById('drinkGlasses');
+		drinkCalT.textContent = drinkGlass;
+		var drinkCatT = document.getElementById('drinkCategory');
+		drinkCatT.textContent = drinkCat;
+		var drinkPicture = document.getElementById('drink-pic');
+		drinkPicture.src = drinkImage;
+	}
+	function showPosition(position) {
+		var requestURL = 'http://api.openweathermap.org/data/2.5/weather?lat=';
+		var appID = '&APPID=20bb47a9e07cd3fd298fe2dd460ce3eb';
+		var request = new XMLHttpRequest();
+		var search = requestURL + Math.round(position.coords.latitude) + '&lon=' + Math.round(position.coords.longitude) + appID;
+		request.open('GET', search);
+		request.responseType = 'json';
+		request.send();
+		request.onload = function () {
+			var response = request.response;
+			weatherOK(response);
+		}
+	}
+	function weatherOK(jsonObj) {
+		var requestURL2 = 'https://api.edamam.com/search';
+		var appID2 = 'ac5c8b15';
+		var appKey2 = 'bda8334a6603c154a512182b7290dc6e';
+		var request2 = new XMLHttpRequest();
+		var searchWord = 'soup';
+		var jsonTemp = jsonObj['main'].temp;
+		if (parseInt(jsonTemp, 10) < 270) {
+			searchWord = 'soup';
+		}else if(parseInt(jsonTemp, 10)<280){
+			searchWord = 'pasta';
+		} else {
+			searchWord = 'grilled';
+		}
+		var search2 = requestURL2 + '?q=' + searchWord + '&app_id=' + appID2 + '&app_key=' + appKey2;
+		request2.open('GET', search2);
+		request2.responseType = 'json';
+		request2.send();
+		request2.onload = function () {
+			var response = request2.response;
+			showFood(response);
+			showWeather(jsonObj);
+		}
+		var requestURL3 = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
+		var request3 = new XMLHttpRequest();
+		request3.open('GET', requestURL3);
+		request3.responseType = 'json';
+		request3.send();
+		request3.onload = function () {
+			var response = request3.response;
+			showDrink(response);
+		}
+	}
+</script>
+
+<script>
+	function dropDown() {
+		document.getElementById("drop-down").classList.toggle("dropdown-alternatives");
+	}
+	window.oncklick = function (event) {
+		if (!event.target.matches(".search-button")) {
+			var dropdowns = document.getElementsByClassName("dropdown-alternatives");
+			var i;
+			for (i = 0; i < dropdowns.lenght; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains("dropdown-alternatives")) {
+					openDropdown.classList.remove("dropdown-alternatives");
+				}
+			}
+		}
+	}
+</script>
+
+<body>
+
+	<!-- Header -->
+	<header id="header" class="alt">
+		<div class="logo">
+			<img src="logo.png">
+			<a href="index.html">FoodForWeather</a>
+		</div>
+		<a href="#menu">Search</a>
+	</header>
+
+	<!-- Nav -->
+	<nav id="menu">
+		<ul class="links">
+			<li>
+				<a href="index.html">Home</a>
+			</li>
+			<li>
+				<a href="food.html">Search for food</a>
+			</li>
+			<li>
+				<a href="drinks.html">Search for drink</a>
+			</li>
+		</ul>
+	</nav>
+
+	<!-- Banner -->
+
+	<!-- Weather-box -->
+	<section id="weather-box" class="wrapper style3">
+		<div class="inner">
+			<header class="align-center">
+				<p>Todays weather at your location</p>
+				<h2 id="weather"></h2>
+			</header>
+		</div>
+	</section>
+
+	<section class="wrapper style2">
+		<div class="inner">
+			<div class="grid-style">
+
+				<!-- Food-box -->
+				<div>
+					<div class="box">
+						<div class="image fit">
+							<img id="food-pic" alt="" />
+						</div>
+						<div class="content">
+							<header class="align-center">
+								<p>Our choise based on todays weather</p>
+								<h2>Dish of the day</h2>
+
+								<ul>
+									<li>
+										<h3>Name</h3>
+										<h1 id="foodName">Name</h1>
+									</li>
+									<hr>
+									<li>
+										<h3>Link to recipe</h3>
+										<a id="foodLink">Link to recipe</a>
+									</li>
+									<hr>
+									<li>
+										<h3>Healthlabels</h3>
+										<h1 id="foodLabels">Healthlabels</h1>
+									</li>
+									<hr>
+									<li>
+										<h3>Ingredients</h3>
+										<h1 id="foodComponents">Ingredients</h1>
+									</li>
+									<hr>
+									<li>
+										<h3>Calories</h3>
+										<h1 id="foodCal">Calories</h1>
+									</li>
+								</ul>
+
+							</header>
+							<p></p>
+							<footer class="align-center">
+								<a href="#" class="button alt">Not for you? Search for a new dish</a>
+							</footer>
+						</div>
+					</div>
+				</div>
+
+				<!-- Drink-box -->
+				<div>
+					<div class="box">
+						<div class="image fit">
+							<img id="drink-pic" alt="" />
+						</div>
+						<div class="content">
+							<header class="align-center">
+								<p>Our choise based on todays weather</p>
+								<h2>Drink of the day</h2>
+
+								<ul>
+									<li>
+										<h3>Name</h3>
+										<h1 id="drinkName">Name</h1>
+									</li>
+									<hr>
+									<li>
+										<h3>Category</h3>
+										<h1 id="drinkCategory">Category</h1>
+									</li>
+									<hr>
+									<li>
+										<h3>Instructions</h3>
+										<h1 id="drinkLink">Instructions</h1>
+									</li>
+									<hr>
+									<li>
+										<h3>Glass</h3>
+										<h1 id="drinkGlasses">Glass</h1>
+									</li>
+									<hr>
+									<li>
+										<h3>Ingredients</h3>
+										<h1 id="drinkComponents">Ingredients</h1>
+									</li>
+									<hr>
+									<li>
+										<h3>Healthlabels</h3>
+										<h1 id="drinkLabels">Healthlabels</h1>
+									</li>
+									<hr>
+								</ul>
+
+							</header>
+							<p> </p>
+							<footer class="align-center">
+								<a href="#" class="button alt">Not for you? Search for a new drink</a>
+							</footer>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer id="footer">
+		<div class="container">
+			<ul class="icons">
+				<li>
+					<a href="#" class="icon fa-twitter">
+						<span class="label">Twitter</span>
+					</a>
+				</li>
+				<li>
+					<a href="#" class="icon fa-facebook">
+						<span class="label">Facebook</span>
+					</a>
+				</li>
+				<li>
+					<a href="#" class="icon fa-instagram">
+						<span class="label">Instagram</span>
+					</a>
+				</li>
+				<li>
+					<a href="#" class="icon fa-envelope-o">
+						<span class="label">Email</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="copyright">
+			&copy; Untitled. All rights reserved.
+		</div>
+	</footer>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
