@@ -22,7 +22,22 @@ var searchWord = '';
 	 	}
 	}
 	function getFoodJson(){
-		var search = requestURL + '?q=' + searchWord + '&app_id=' + appID + '&app_key=' + appKey;
+		var healthWords = '&health=';
+		if(document.getElementById('peanut-free-food').checked){
+			healthWords = healthWords + 'peanut-free';
+		}else if (document.getElementById('tree-nut-free-food').checked) {
+						healthWords = healthWords + "tree-nut-free";
+		}else if (document.getElementById('vegan-food').checked) {
+						healthWords = healthWords + "vegan";
+		}else	if (document.getElementById('vegetarian-food').checked) {
+						healthWords = healthWords + "vegetarian";
+		}
+		var search = requestURL + '?q=' + searchWord + '&app_id=' + appID + '&app_key=' + appKey + '&to=25';
+		if(healthWords == '&health=' ){
+		}else {
+			search = search + healthWords;
+		}
+		healthWords = '&health=';
 		request.open('GET', search);
 		request.responseType = 'json';
 		request.send();
@@ -47,22 +62,11 @@ var searchWord = '';
 		}
 	}
 </script>
-<script>
-	function myFunction() {
-		var x = document.querySelector(".choose-special-food");
-		if (x.style.display === "none") {
-			x.style.display = "block";
-		} else {
-			x.style.display = "none";
-		}
-	}
-</script>
 
 <!--script>
 function myFunction(){
 	document.getElementById("drop-down").classList.toggle("dropdown-alternatives");
 }
-
 window.oncklick = function(event){
 	if (!event.target.matches(".search-button")){
 		var dropdowns = document.getElementsByClassName("dropdown-alternatives");
@@ -75,7 +79,6 @@ window.oncklick = function(event){
 		}
 	}
 }
-
 </script-->
 
 <body>
@@ -118,40 +121,12 @@ window.oncklick = function(event){
 					<fieldset class="choose-special-food">
 						<ul>
 							<li>
-								<input type="checkbox" id="dairy-free-food" name="dairy-free" value="dairy-free-food">
-								<label for="dairy-free-food">Dairy-free</label>
-							</li>
-							<li>
-								<input type="checkbox" id="gluten-free-food" name="gluten-free" value="gluten-free-food">
-								<label for="gluten-free-food">Gluten-free</label>
-							</li>
-							<li>
-								<input type="checkbox" id="fat-free-food" name="fat-free" value="fat-free-food">
-								<label for="fat-free-food">Fat-free</label>
-							</li>
-							<li>
-								<input type="checkbox" id="low-sugar-food" name="low-sugar" value="low-sugar-food">
-								<label for="low-sugar-food">Low-sugar</label>
-							</li>
-							<li>
-								<input type="checkbox" id="egg-free-food" name="egg-free" value="egg-free-food">
-								<label for="egg-free-food">Egg-free</label>
+								<input type="checkbox" id="tree-nut-free-food" name="tree-nut-free" value="tree-nut-free">
+								<label for="tree-nut-free-food">Tree-nut-free</label>
 							</li>
 							<li>
 								<input type="checkbox" id="peanut-free-food" name="peanut-free" value="peanut-free-food">
 								<label for="peanut-free-food">Peanut-free</label>
-							</li>
-							<li>
-								<input type="checkbox" id="soy-free-food" name="soy-free" value="soy-free-food">
-								<label for="soy-free-food">Soy-free</label>
-							</li>
-							<li>
-								<input type="checkbox" id="fish-free-food" name="fish-free" value="fish-free-food">
-								<label for="fish-free-food">Fish-free</label>
-							</li>
-							<li>
-								<input type="checkbox" id="paleo-food" name="paleo" value="paleo-food">
-								<label for="paleo-food">Paleo</label>
 							</li>
 							<li>
 								<input type="checkbox" id="vegan-food" name="vegan" value="vegan-food">
@@ -168,36 +143,6 @@ window.oncklick = function(event){
 		</article>
 	</section>
 
-	<!-- Footer -->
-	<footer id="footer">
-		<div class="container">
-			<ul class="icons">
-				<li>
-					<a href="#" class="icon fa-twitter">
-						<span class="label">Twitter</span>
-					</a>
-				</li>
-				<li>
-					<a href="#" class="icon fa-facebook">
-						<span class="label">Facebook</span>
-					</a>
-				</li>
-				<li>
-					<a href="#" class="icon fa-instagram">
-						<span class="label">Instagram</span>
-					</a>
-				</li>
-				<li>
-					<a href="#" class="icon fa-envelope-o">
-						<span class="label">Email</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-		<div class="copyright">
-			&copy; Untitled. All rights reserved.
-		</div>
-	</footer>
 
 	<!-- Scripts -->
 	<script src="assets/js/jquery.min.js"></script>
