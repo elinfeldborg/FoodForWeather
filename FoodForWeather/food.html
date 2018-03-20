@@ -15,6 +15,7 @@ var appID = 'ac5c8b15';
 var appKey = 'bda8334a6603c154a512182b7290dc6e';
 var request = new XMLHttpRequest();
 var searchWord = '';
+document.querySelector(".choose-special-food").style.display = "none";
 	function enterPress(event){
 		if (event.keyCode == 13|| event.which == 13) {
 			searchWord = document.getElementById("search-box").value;
@@ -55,10 +56,10 @@ var searchWord = '';
 	}
 	function myFunction() {
 		var x = document.querySelector(".choose-special-food");
-		if (x.style.display === "none") {
-			x.style.display = "block";
-		} else {
+		if (x.style.display === "block") {
 			x.style.display = "none";
+		} else {
+			x.style.display = "block";
 		}
 	}
 </script>
