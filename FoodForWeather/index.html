@@ -105,12 +105,16 @@
 		var request2 = new XMLHttpRequest();
 		var searchWord = 'soup';
 		var jsonTemp = jsonObj['main'].temp;
-		if (parseInt(jsonTemp, 10) < 270) {
+		if (parseInt(jsonTemp, 10) < 260) {
 			searchWord = 'soup';
-		}else if(parseInt(jsonTemp, 10)<280){
+		}else if(parseInt(jsonTemp, 10) < 270){
+			searchWord = 'hot';
+		}else if(parseInt(jsonTemp, 10) < 280){
 			searchWord = 'pasta';
-		} else {
+		}else if(parseInt(jsonTemp, 10) < 290 ){
 			searchWord = 'grilled';
+		}else {
+			searchWord = 'ice';
 		}
 		var search2 = requestURL2 + '?q=' + searchWord + '&app_id=' + appID2 + '&app_key=' + appKey2 +'&to=100';
 		request2.open('GET', search2);
@@ -129,24 +133,6 @@
 		request3.onload = function () {
 			var response = request3.response;
 			showDrink(response);
-		}
-	}
-</script>
-
-<script>
-	function dropDown() {
-		document.getElementById("drop-down").classList.toggle("dropdown-alternatives");
-	}
-	window.oncklick = function (event) {
-		if (!event.target.matches(".search-button")) {
-			var dropdowns = document.getElementsByClassName("dropdown-alternatives");
-			var i;
-			for (i = 0; i < dropdowns.lenght; i++) {
-				var openDropdown = dropdowns[i];
-				if (openDropdown.classList.contains("dropdown-alternatives")) {
-					openDropdown.classList.remove("dropdown-alternatives");
-				}
-			}
 		}
 	}
 </script>
