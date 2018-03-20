@@ -24,6 +24,7 @@ window.onload = function(){
 		var link = document.createElement('a');
 		link.className = 'button alt';
 		link.textContent = 'Link to recipe';
+		link.target = '_blank';
 		link.href = jsonList[i].recipe.url;
 		var li = document.createElement('div');
 		section.appendChild(name);
