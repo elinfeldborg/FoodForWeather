@@ -1,0 +1,211 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<title>FoodForWeather</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<script>
+var requestURL = 'https://api.edamam.com/search';
+var appID = 'ac5c8b15';
+var appKey = 'bda8334a6603c154a512182b7290dc6e';
+var request = new XMLHttpRequest();
+var searchWord = '';
+	function enterPress(event){
+		if (event.keyCode == 13|| event.which == 13) {
+			searchWord = document.getElementById("search-box").value;
+	    getFoodJson();
+	 	}
+	}
+	function getFoodJson(){
+		var search = requestURL + '?q=' + searchWord + '&app_id=' + appID + '&app_key=' + appKey;
+		request.open('GET', search);
+		request.responseType = 'json';
+		request.send();
+		request.onload = function () {
+			var response = request.response;
+			displayResponse(response);
+		}
+	}
+	function displayResponse(jsonObj){
+		var jsonHits = jsonObj['hits'];
+		//randomises the recipe to show from 0 - 9
+		//jsonRecepie is where the information from one recepie gathers. info an be called by jsonRecepie.Whateverinfo
+		sessionStorage.setItem('resultsFood', JSON.stringify(jsonHits));
+		location.assign('resultsFood.html');
+	}
+	function myFunction() {
+		var x = document.querySelector(".choose-special-food");
+		if (x.style.display === "none") {
+			x.style.display = "block";
+		} else {
+			x.style.display = "none";
+		}
+	}
+</script>
+<script>
+	function myFunction() {
+		var x = document.querySelector(".choose-special-food");
+		if (x.style.display === "none") {
+			x.style.display = "block";
+		} else {
+			x.style.display = "none";
+		}
+	}
+</script>
+
+<!--script>
+function myFunction(){
+	document.getElementById("drop-down").classList.toggle("dropdown-alternatives");
+}
+
+window.oncklick = function(event){
+	if (!event.target.matches(".search-button")){
+		var dropdowns = document.getElementsByClassName("dropdown-alternatives");
+		var i;
+		for ( i = 0; i < dropdowns.lenght; i++) {
+			var openDropdown = dropdowns[i];
+			if (openDropdown.classList.contains("dropdown-alternatives")) {
+				openDropdown.classList.remove("dropdown-alternatives");
+			}
+		}
+	}
+}
+
+</script-->
+
+<body>
+
+	<!-- Header -->
+	<header id="header" class="alt">
+		<div class="logo">
+			<img src="logo.png">
+			<a href="index.html">FoodForWeather</a>
+		</div>
+	</header>
+
+	<!-- Nav -->
+	<!--nav id="menu">
+		<ul class="links">
+			<li>
+				<a href="index.html">Home</a>
+			</li>
+			<li>
+				<a href="food.html">Search for food</a>
+			</li>
+			<li>
+				<a href="drinks.html">Search for drink</a>
+			</li>
+		</ul>
+	</nav-->
+
+	<!-- Banner -->
+	<section class="banner full" id="food-section">
+		<article>
+			<img src="images/2.jpg" alt="" />
+			<div class="inner">
+				<header id="food-header">
+					<h1 id="headline">Search for food</h1>
+					<input id="search-box" type="text" name="search" placeholder="SEARCH" onkeypress="enterPress(event)">
+					<br>
+
+					<button onclick="myFunction()" id="advanced-search"> Advanced Search </button>
+
+					<fieldset class="choose-special-food">
+						<ul>
+							<li>
+								<input type="checkbox" id="dairy-free-food" name="dairy-free" value="dairy-free-food">
+								<label for="dairy-free-food">Dairy-free</label>
+							</li>
+							<li>
+								<input type="checkbox" id="gluten-free-food" name="gluten-free" value="gluten-free-food">
+								<label for="gluten-free-food">Gluten-free</label>
+							</li>
+							<li>
+								<input type="checkbox" id="fat-free-food" name="fat-free" value="fat-free-food">
+								<label for="fat-free-food">Fat-free</label>
+							</li>
+							<li>
+								<input type="checkbox" id="low-sugar-food" name="low-sugar" value="low-sugar-food">
+								<label for="low-sugar-food">Low-sugar</label>
+							</li>
+							<li>
+								<input type="checkbox" id="egg-free-food" name="egg-free" value="egg-free-food">
+								<label for="egg-free-food">Egg-free</label>
+							</li>
+							<li>
+								<input type="checkbox" id="peanut-free-food" name="peanut-free" value="peanut-free-food">
+								<label for="peanut-free-food">Peanut-free</label>
+							</li>
+							<li>
+								<input type="checkbox" id="soy-free-food" name="soy-free" value="soy-free-food">
+								<label for="soy-free-food">Soy-free</label>
+							</li>
+							<li>
+								<input type="checkbox" id="fish-free-food" name="fish-free" value="fish-free-food">
+								<label for="fish-free-food">Fish-free</label>
+							</li>
+							<li>
+								<input type="checkbox" id="paleo-food" name="paleo" value="paleo-food">
+								<label for="paleo-food">Paleo</label>
+							</li>
+							<li>
+								<input type="checkbox" id="vegan-food" name="vegan" value="vegan-food">
+								<label for="vegan-food">Vegan</label>
+							</li>
+							<li>
+								<input type="checkbox" id="vegetarian-food" name="vegetarian" value="vegetarian-food">
+								<label for="vegetarian-food">Vegetarian</label>
+							</li>
+						</ul>
+					</fieldset>
+				</header>
+			</div>
+		</article>
+	</section>
+
+	<!-- Footer -->
+	<footer id="footer">
+		<div class="container">
+			<ul class="icons">
+				<li>
+					<a href="#" class="icon fa-twitter">
+						<span class="label">Twitter</span>
+					</a>
+				</li>
+				<li>
+					<a href="#" class="icon fa-facebook">
+						<span class="label">Facebook</span>
+					</a>
+				</li>
+				<li>
+					<a href="#" class="icon fa-instagram">
+						<span class="label">Instagram</span>
+					</a>
+				</li>
+				<li>
+					<a href="#" class="icon fa-envelope-o">
+						<span class="label">Email</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="copyright">
+			&copy; Untitled. All rights reserved.
+		</div>
+	</footer>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
