@@ -25,14 +25,15 @@
 	#home-header{
 		height: 80%;
 	}
-
+ /*food/drink-section*/
 	#search-box{
 		background-color: rgba(0,0,0,0.5);
 		color: #fff!important;
-		height: 50px;
-		width: 600px;
+		height: auto;
+		width: 500px;
 		font-size: 20px;
 	}
+	/*end of food/drink-section*/
 
 	#drop-down > a{
 		width: 600px;
@@ -87,7 +88,7 @@
 
 	.choose-special-food{
 		display: none;
-		height: 120px;
+		height: auto;
 		padding: 40px;
 		background-color: rgba(0,0,0,0.5);
 	}
@@ -108,6 +109,7 @@
 
 	#advanced-search {
 		margin-bottom: 30px;
+		width: 50%;
 	}
 
 
@@ -3757,7 +3759,7 @@ input[type=text]:focus {
 
 #search-box{
 	height: 100px;
-	width: 1000px;
+	width: auto;
 	margin: 0 auto;
 	text-align: center;
 	font-size: 40px;
@@ -3878,7 +3880,7 @@ input[type=text]:focus {
 			background-position: center;
 			background-repeat: no-repeat;
 			background-size: cover;
-			height: 100%;
+			height: auto;
 			left: 0;
 			opacity: 0;
 			position: absolute;
