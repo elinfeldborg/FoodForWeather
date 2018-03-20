@@ -13,10 +13,17 @@ window.onload = function(){
 	var jsonHits = sessionStorage.getItem('resultsDrink');
 	var jsonList = JSON.parse(jsonHits);
 	var section = document.getElementById('list');
+	var div = document.createElement('h2');
+	section.appendChild(div);
 	for (var i = 0; i < 10; i++) {
-		var name = document.createElement('h3');
+		var name = document.createElement('h2');
 		name.textContent = jsonList[i].strDrink;
+		var ingHead = document.createElement('h3');
+		ingHead.textContent = 'Ingredients';
+		var insHead = document.createElement('h3');
+		insHead.textContent = 'Instructions';
 		var image = document.createElement('img');
+		image.className = 'resultsImage';
 		image.src =  jsonList[i].strDrinkThumb;
 		var instruction = document.createElement('h1');
 		instruction.textContent = jsonList[i].strInstructions;
@@ -32,7 +39,9 @@ window.onload = function(){
     Ingredients.textContent = ingString;
 		section.appendChild(name);
 		section.appendChild(image);
+		section.appendChild(insHead);
 		section.appendChild(instruction);
+		section.appendChild(ingHead);
     section.appendChild(Ingredients);
 		//li.appendChild(link);
 	}
