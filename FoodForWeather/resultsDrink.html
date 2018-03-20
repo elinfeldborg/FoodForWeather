@@ -15,7 +15,7 @@ window.onload = function(){
 	var section = document.getElementById('list');
 	var div = document.createElement('h2');
 	section.appendChild(div);
-	for (var i = 0; i < 10; i++) {
+	for (var i = 0; i < 20; i++) {
 		var name = document.createElement('h2');
 		name.textContent = jsonList[i].strDrink;
 		var ingHead = document.createElement('h3');
@@ -30,7 +30,7 @@ window.onload = function(){
     var ingString = '';
     ingString = jsonList[i]['strIngredient' + 1] + " " + jsonList[i]['strMeasure' + 1];
     for (var j = 2; j < 16; j++) {
-      if(jsonList[i]['strIngredient' + j] == "null"|| jsonList[i]['strIngredient' + j] ==""|| jsonList[i]['strIngredient' + j]== " "|| jsonList[i]['strIngredient' + j]== "\n"){
+      if(jsonList[i]['strIngredient' + j] == null|| jsonList[i]['strIngredient' + j] ==""|| jsonList[i]['strIngredient' + j]== " "|| jsonList[i]['strIngredient' + j]== "\n"){
       }else {
           ingString = ingString + ', ' + jsonList[i]['strIngredient' + j] +" "+ jsonList[i]['strMeasure' + j];
       }
