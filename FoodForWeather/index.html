@@ -61,7 +61,6 @@
 		var drinkAlc = jsonObj['drinks'][0].strAlcoholic;
 		var drinkGlass = jsonObj['drinks'][0].strGlass;
 		var drinkCat = jsonObj['drinks'][0].strCategory;
-
 		var drinkNameT = document.getElementById('drinkName');
 		drinkNameT.textContent = drinkName;
 		var drinkLinkT = document.getElementById('drinkLink');
@@ -69,13 +68,14 @@
 		var drinkLabelsT = document.getElementById('drinkLabels');
 		drinkLabelsT.textContent = drinkAlc;
 		var drinkCompT = document.getElementById('drinkComponents');
-		var ingString = jsonObj['drinks'][0].strIngredient1 + ' ' +  jsonObj['drinks'][0].strMeasure1 + ', ' + jsonObj['drinks'][0].strIngredient2 + ' ' +  jsonObj['drinks'][0].strMeasure2 + ', ' + jsonObj['drinks'][0].strIngredient3
-		 + ' ' +  jsonObj['drinks'][0].strMeasure3 + ', ' + jsonObj['drinks'][0].strIngredient4 + ' ' +  jsonObj['drinks'][0].strMeasure4 + ', ' + jsonObj['drinks'][0].strIngredient5 + ' ' +  jsonObj['drinks'][0].strMeasure5 + ', ' +
-		 jsonObj['drinks'][0].strIngredient6 + ' ' +  jsonObj['drinks'][0].strMeasure6 + ', ' + jsonObj['drinks'][0].strIngredient7 + ' ' +  jsonObj['drinks'][0].strMeasure7 + ', ' +
-		 jsonObj['drinks'][0].strIngredient8 + ' ' +  jsonObj['drinks'][0].strMeasure8 + ', ' + jsonObj['drinks'][0].strIngredient9 + ' ' +  jsonObj['drinks'][0].strMeasure9 + ', ' +
-		 jsonObj['drinks'][0].strIngredient10 + ' ' +  jsonObj['drinks'][0].strMeasure10 + ', ' + jsonObj['drinks'][0].strIngredient11 + ' ' +  jsonObj['drinks'][0].strMeasure11 + ', ' +
-		 jsonObj['drinks'][0].strIngredient12 + ' ' +  jsonObj['drinks'][0].strMeasure12 + ', ' + jsonObj['drinks'][0].strIngredient13 + ' ' +  jsonObj['drinks'][0].strMeasure13 + ', ' +
-		 jsonObj['drinks'][0].strIngredient14 + ' ' +  jsonObj['drinks'][0].strMeasure14 + ', ' + jsonObj['drinks'][0].strIngredient15 + ' ' +  jsonObj['drinks'][0].strMeasure15 + ', ';
+		var ingString = '';
+		ingString = jsonObj['drinks'][0]['strIngredient' + 1] + " " + jsonObj['drinks'][0]['strMeasure' + 1];
+		for (var i = 2; i < 16; i++) {
+			if(jsonObj['drinks'][0]['strIngredient' + i] == "null"|| jsonObj['drinks'][0]['strIngredient' + i] ==""|| jsonObj['drinks'][0]['strIngredient' + i]== " "|| jsonObj['drinks'][0]['strIngredient' + i]== "\n"){
+			}else {
+					ingString = ingString + ', ' +jsonObj['drinks'][0]['strIngredient' + i] +" "+ jsonObj['drinks'][0]['strMeasure' + i];
+			}
+		}
 		drinkCompT.textContent = ingString;
 		var drinkCalT = document.getElementById('drinkGlasses');
 		drinkCalT.textContent = drinkGlass;
@@ -84,6 +84,7 @@
 		var drinkPicture = document.getElementById('drink-pic');
 		drinkPicture.src = drinkImage;
 	}
+	
 	function showPosition(position) {
 		var requestURL = 'http://api.openweathermap.org/data/2.5/weather?lat=';
 		var appID = '&APPID=20bb47a9e07cd3fd298fe2dd460ce3eb';

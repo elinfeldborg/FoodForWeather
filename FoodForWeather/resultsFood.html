@@ -1,54 +1,47 @@
 <!DOCTYPE HTML>
-
 <html>
 
 <head>
-	<title>FoodForWeather</title>
+	<title>Results</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="assets/css/main.css" />
 </head>
 
 <script>
-var requestURL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-var request = new XMLHttpRequest();
-var searchWord = '';
-	function enterPress(event){
-		if (event.keyCode == 13|| event.which == 13) {
-			searchWord = document.getElementById("search-box").value;
-	    getDrinkJson();
-	 	}
+window.onload = function(){
+	var jsonHits = sessionStorage.getItem('resultsFood');
+	var jsonList = JSON.parse(jsonHits);
+	//name.textContent = jsonList[0].recipe.label;
+	var section = document.getElementById('list');
+	for (var i = 0; i < 10; i++) {
+		var name = document.createElement('h3');
+		name.textContent = jsonList[i].recipe.label;
+		var image = document.createElement('img');
+		image.src =  jsonList[i].recipe.image;
+		var link = document.createElement('a');
+		link.textContent = 'Link to recipe above';
+		link.href = jsonList[i].recipe.url;
+		var li = document.createElement('li');
+		section.appendChild(name);
+		section.appendChild(image);
+		section.appendChild(li);
+		li.appendChild(link);
 	}
-	function getDrinkJson(){
-		var search = requestURL + searchWord;
-		request.open('GET', search);
-		request.responseType = 'json';
-		request.send();
-		request.onload = function () {
-			var response = request.response;
-			displayResponse(response);
-		}
-	}
-	function displayResponse(jsonObj){
-		var jsonHits = jsonObj['drinks'];
-		//randomises the recipe to show from 0 - 9
-		//jsonRecepie is where the information from one recepie gathers. info an be called by jsonRecepie.Whateverinfo
-		sessionStorage.setItem('resultsDrink', JSON.stringify(jsonHits));
-		location.assign('resultsDrink.html');
-	}
+}
 </script>
 
-<body>
+<body class="subpage">
 
 	<!-- Header -->
-	<header id="header" class="alt">
+	<header id="header">
 		<div class="logo">
 			<img src="logo.png">
 			<a href="index.html">FoodForWeather</a>
 		</div>
+		<a href="#menu">Search</a>
 	</header>
 
-	<!-- Nav -->
 	<nav id="menu">
 		<ul class="links">
 			<li>
@@ -63,18 +56,20 @@ var searchWord = '';
 		</ul>
 	</nav>
 
-	<!-- Banner -->
-	<section class="banner full">
-		<article>
-			<img src="images/drink3.jpeg" alt="" />
-			<div class="inner">
-				<header>
-					<h1 id="headline">Search for drinks</h1>
-					<input id="search-box" type="text" name="search" placeholder="SEARCH" onkeypress="enterPress(event)">
-					<br>
-				</header>
+	<!-- Two -->
+	<section id="two" class="wrapper style2">
+		<div class="inner">
+			<div class="box">
+				<div class="content">
+
+					<header id="list" class="align-center">
+						<p>Here is a presentation of your results</p>
+
+					</header>
+
+					</div>
+				</div>
 			</div>
-		</article>
 	</section>
 
 	<!-- Footer -->

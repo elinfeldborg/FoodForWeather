@@ -9,36 +9,44 @@
 	<link rel="stylesheet" href="assets/css/main.css" />
 </head>
 
-<!--
 <script>
-var header = document.querySelector('header');
-    var section = document.querySelector('section');
-    var requestURL = 'http://api.openweathermap.org/data/2.5/weather?q=';
-    var appID = '&APPID=20bb47a9e07cd3fd298fe2dd460ce3eb';
-    var locale = 'göteborg';
-		// Change locale string to change location
-    var request = new XMLHttpRequest();
-    var search = requestURL + locale + appID;
-    request.open('GET', search);
-
-	request.responseType = 'json';
-	request.send();
-
-	request.onload = function () {
-		var weather = request.response;
-		populateHeader(weather);
-		show(weather);
+var requestURL = 'https://api.edamam.com/search';
+var appID = 'ac5c8b15';
+var appKey = 'bda8334a6603c154a512182b7290dc6e';
+var request = new XMLHttpRequest();
+var searchWord = '';
+	function enterPress(event){
+		if (event.keyCode == 13|| event.which == 13) {
+			searchWord = document.getElementById("search-box").value;
+	    getFoodJson();
+	 	}
 	}
-
-	function populateHeader(jsonObj) {
-		var myH1 = document.getElementById('weather');
-		var jsonWeather = jsonObj['weather'];
-		myH1.textContent = jsonWeather[0].main;
-		header.appendChild(myH1);
+	function getFoodJson(){
+		var search = requestURL + '?q=' + searchWord + '&app_id=' + appID + '&app_key=' + appKey;
+		request.open('GET', search);
+		request.responseType = 'json';
+		request.send();
+		request.onload = function () {
+			var response = request.response;
+			displayResponse(response);
+		}
+	}
+	function displayResponse(jsonObj){
+		var jsonHits = jsonObj['hits'];
+		//randomises the recipe to show from 0 - 9
+		//jsonRecepie is where the information from one recepie gathers. info an be called by jsonRecepie.Whateverinfo
+		sessionStorage.setItem('resultsFood', JSON.stringify(jsonHits));
+		location.assign('resultsFood.html');
+	}
+	function myFunction() {
+		var x = document.querySelector(".choose-special-food");
+		if (x.style.display === "none") {
+			x.style.display = "block";
+		} else {
+			x.style.display = "none";
+		}
 	}
 </script>
--->
-
 <script>
 	function myFunction() {
 		var x = document.querySelector(".choose-special-food");
@@ -102,7 +110,7 @@ window.oncklick = function(event){
 			<div class="inner">
 				<header id="food-header">
 					<h1 id="headline">Search for food</h1>
-					<input id="search-box" type="text" name="search" placeholder="SEARCH">
+					<input id="search-box" type="text" name="search" placeholder="SEARCH" onkeypress="enterPress(event)">
 					<br>
 
 					<button onclick="myFunction()" id="advanced-search"> Advanced Search </button>
